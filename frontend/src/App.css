@@ -86,67 +86,95 @@ body{
 .bg-scene{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;display:block}
 .bg-grid,.bg-glow{display:none}
 
-/* Floating rising bubbles — creative motion animation */
+/* Glowing pipeline energy flow — streaks of light traveling along refinery pipelines */
 .bg-lines{
   position:absolute;inset:0;overflow:hidden;pointer-events:none;
-  display:block;z-index:1;
+  display:block;z-index:2;
 }
+
+/* Subtle horizontal pipeline lines the streaks flow along */
+.bg-lines::before,
+.bg-lines::after{
+  content:"";
+  position:absolute;left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,200,140,0.18) 10%,
+    rgba(255,200,140,0.32) 50%,
+    rgba(255,200,140,0.18) 90%,
+    transparent 100%);
+  pointer-events:none;
+}
+.bg-lines::before{bottom:22%}
+.bg-lines::after{bottom:16%}
+
+/* Each span is a comet-like energy streak */
 .bg-lines span{
-  position:absolute;bottom:-100px;
-  display:block;
-  border-radius:50%;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95) 0%, rgba(255,240,220,0.6) 30%, rgba(255,200,160,0.25) 55%, rgba(255,180,140,0.08) 75%, transparent 100%);
+  position:absolute;
+  width:130px;height:3px;
+  border-radius:2px;
+  background:linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,225,150,0.25) 20%,
+    rgba(255,190,90,0.75) 55%,
+    #FFE7A8 82%,
+    #FFFFFF 96%,
+    transparent 100%);
   box-shadow:
-    inset -4px -6px 10px rgba(180,110,60,0.15),
-    inset 3px 4px 8px rgba(255,255,255,0.5),
-    0 0 20px rgba(255,220,180,0.35);
+    0 0 8px rgba(255,190,90,0.85),
+    0 0 20px rgba(255,180,80,0.55),
+    0 0 40px rgba(255,150,60,0.25);
+  filter:blur(0.4px);
   opacity:0;
-  animation:bubble-rise 18s linear infinite;
-}
-/* six distinct bubbles with unique paths and sizes */
-.bg-lines span:nth-child(1){left:8%;  width:34px; height:34px; animation-delay:0s;  animation-duration:16s}
-.bg-lines span:nth-child(2){left:22%; width:52px; height:52px; animation-delay:3s;  animation-duration:22s}
-.bg-lines span:nth-child(3){left:38%; width:22px; height:22px; animation-delay:6s;  animation-duration:12s}
-.bg-lines span:nth-child(4){left:55%; width:64px; height:64px; animation-delay:1.5s;animation-duration:26s}
-.bg-lines span:nth-child(5){left:72%; width:38px; height:38px; animation-delay:8s;  animation-duration:19s}
-.bg-lines span:nth-child(6){left:87%; width:28px; height:28px; animation-delay:4.5s;animation-duration:15s}
-
-@keyframes bubble-rise{
-  0%  {transform:translate(0,0) scale(0.75); opacity:0}
-  8%  {opacity:0.85}
-  25% {transform:translate(18px, -25vh) scale(0.95)}
-  50% {transform:translate(-14px, -55vh) scale(1); opacity:0.9}
-  75% {transform:translate(20px, -80vh) scale(1.08)}
-  92% {opacity:0.35}
-  100%{transform:translate(-6px, -108vh) scale(1.15); opacity:0}
+  animation:pipeline-flow 6s linear infinite;
+  will-change:transform, opacity;
 }
 
-/* Second layer of smaller purple-tinted bubbles via .bg-scene pseudo elements */
+/* 6 streaks — different heights, speeds, and directions */
+.bg-lines span:nth-child(1){bottom:28%;left:-15%;animation-delay:0s;   animation-duration:5.5s}
+.bg-lines span:nth-child(2){bottom:22%;left:-15%;animation-delay:1.5s; animation-duration:7s;   height:2px;width:100px}
+.bg-lines span:nth-child(3){bottom:16%;left:-15%;animation-delay:2.8s; animation-duration:6s;   height:4px;width:150px}
+.bg-lines span:nth-child(4){bottom:24%;left:-15%;animation-delay:3.8s; animation-duration:8s;   height:2px;width:90px}
+.bg-lines span:nth-child(5){bottom:19%;left:-15%;animation-delay:0.9s; animation-duration:6.5s; height:3px;width:120px}
+.bg-lines span:nth-child(6){bottom:14%;left:-15%;animation-delay:4.5s; animation-duration:5s;   height:2px;width:110px}
+
+@keyframes pipeline-flow{
+  0%  {transform:translateX(0)          scaleX(0.6); opacity:0}
+  6%  {opacity:1}
+  50% {transform:translateX(60vw)       scaleX(1);   opacity:1}
+  94% {opacity:1}
+  100%{transform:translateX(130vw)      scaleX(0.7); opacity:0}
+}
+
+/* Subtle glowing energy pulse at pipeline junctions (via .bg-glow) */
 .bg-scene .bg-glow{
   display:block;
   position:absolute;inset:0;pointer-events:none;
   background:transparent;
   mix-blend-mode:normal;
+  z-index:1;
 }
 .bg-scene .bg-glow::before,
 .bg-scene .bg-glow::after{
   content:"";
-  position:absolute;bottom:-60px;
+  position:absolute;
+  width:14px;height:14px;
   border-radius:50%;
-  background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(200,150,200,0.35) 45%, transparent 75%);
-  box-shadow:inset -3px -4px 8px rgba(120,60,120,0.15), 0 0 16px rgba(200,150,200,0.4);
-  opacity:0;
+  background:radial-gradient(circle, #FFE7A8 0%, rgba(255,190,90,0.6) 40%, transparent 70%);
+  box-shadow:0 0 20px rgba(255,190,90,0.8), 0 0 40px rgba(255,150,60,0.4);
 }
 .bg-scene .bg-glow::before{
-  left:14%;width:18px;height:18px;
-  animation:bubble-rise 14s linear infinite;
-  animation-delay:2s;
+  left:14%;bottom:22%;
+  animation:pulse-node 2.4s ease-in-out infinite;
 }
 .bg-scene .bg-glow::after{
-  left:44%;width:26px;height:26px;
-  animation:bubble-rise 20s linear infinite;
-  animation-delay:9s;
+  left:72%;bottom:16%;
+  animation:pulse-node 2.8s ease-in-out infinite 1s;
+}
+@keyframes pulse-node{
+  0%,100%{opacity:0.4;transform:scale(0.9)}
+  50%    {opacity:1;  transform:scale(1.4)}
 }
 
 /* Subtle refinery/industrial silhouette at bottom */
