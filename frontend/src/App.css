@@ -28,7 +28,7 @@ html,body,#root{margin:0;padding:0;height:100%}
 body{
   font-family:'Manrope','Sora',system-ui,-apple-system,sans-serif;
   color:var(--ink);
-  background:#DCEBF7;
+  background:#8B5FB0;
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
 }
@@ -37,7 +37,7 @@ body{
   min-height:100vh;
   display:flex;
   flex-direction:column;
-  background:#DCEBF7;
+  background:#8B5FB0;
   animation:page-fade-in .6s ease-out both;
 }
 @keyframes page-fade-in{
@@ -79,36 +79,65 @@ body{
   grid-template-columns:minmax(0, 1.05fr) minmax(460px, 0.95fr);
   position:relative;isolation:isolate;overflow:hidden;
   background:
-    radial-gradient(1000px 700px at 20% 15%, rgba(10,37,64,0.05) 0%, transparent 60%),
-    radial-gradient(900px 600px at 85% 85%, rgba(233,120,36,0.05) 0%, transparent 60%),
-    #DCEBF7;
+    linear-gradient(135deg, #7B4FA8 0%, #9E6AAF 25%, #C68A9C 45%, #E5A488 65%, #EB8B4A 85%, #E97824 100%);
 }
 
-/* Decorative background layers — subtle premium orbs */
+/* Decorative background layers — refinery silhouette + warm bokeh */
 .bg-scene{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;display:block}
 .bg-grid,.bg-glow,.bg-lines{display:none}
+
+/* Subtle refinery/industrial silhouette at bottom */
+.bg-scene::before{
+  content:"";
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:38%;
+  background:
+    /* horizon line darkening */
+    linear-gradient(180deg, transparent 0%, rgba(120,52,20,0.10) 50%, rgba(90,35,15,0.18) 100%),
+    /* refinery silhouette SVG */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 300' preserveAspectRatio='xMidYEnd slice'><g fill='rgba(90,40,20,0.18)'><rect x='60' y='180' width='60' height='120'/><rect x='140' y='210' width='40' height='90'/><rect x='200' y='190' width='70' height='110'/><rect x='290' y='170' width='90' height='130'/><rect x='400' y='200' width='50' height='100'/><rect x='470' y='215' width='55' height='85'/><rect x='545' y='185' width='75' height='115'/><rect x='640' y='195' width='60' height='105'/><rect x='720' y='170' width='95' height='130'/><rect x='835' y='210' width='45' height='90'/><rect x='900' y='190' width='70' height='110'/><rect x='990' y='175' width='85' height='125'/><rect x='1095' y='205' width='60' height='95'/><rect x='90' y='170' width='6' height='40'/><rect x='250' y='160' width='6' height='40'/><rect x='340' y='150' width='6' height='30'/><rect x='580' y='165' width='6' height='30'/><rect x='770' y='150' width='6' height='30'/><rect x='940' y='170' width='6' height='30'/><rect x='1030' y='155' width='6' height='30'/><ellipse cx='170' cy='210' rx='40' ry='14'/><ellipse cx='430' cy='200' rx='38' ry='12'/><ellipse cx='670' cy='195' rx='36' ry='11'/><ellipse cx='875' cy='210' rx='42' ry='13'/><path d='M60,240 L1160,240 L1160,300 L60,300 Z' opacity='0.5'/></g></svg>") repeat-x bottom / auto 100%;
+  opacity:0.85;
+}
+
+/* Warm bokeh circles on left/bottom */
 .bg-blob{
-  position:absolute;border-radius:50%;filter:blur(90px);opacity:0.55;
-  will-change:transform;
+  position:absolute;border-radius:50%;filter:blur(30px);
+  will-change:transform;pointer-events:none;
 }
 .bg-blob-1{
-  width:520px;height:520px;left:-140px;top:-120px;
-  background:radial-gradient(circle, rgba(10,37,64,0.14) 0%, transparent 70%);
-  animation:blob-a 24s ease-in-out infinite alternate;
+  width:80px;height:80px;left:4%;bottom:22%;
+  background:rgba(180,130,180,0.55);
+  filter:blur(6px);opacity:0.85;
+  animation:blob-a 12s ease-in-out infinite alternate;
 }
 .bg-blob-2{
-  width:600px;height:600px;right:-180px;bottom:-160px;
-  background:radial-gradient(circle, rgba(26,75,122,0.10) 0%, transparent 70%);
-  animation:blob-b 30s ease-in-out infinite alternate;
+  width:52px;height:52px;left:9%;bottom:32%;
+  background:rgba(232,168,145,0.7);
+  filter:blur(4px);opacity:0.9;
+  animation:blob-b 15s ease-in-out infinite alternate;
 }
 .bg-blob-3{
-  width:440px;height:440px;left:52%;top:60%;
-  background:radial-gradient(circle, rgba(233,120,36,0.06) 0%, transparent 70%);
-  animation:blob-c 36s ease-in-out infinite alternate;
+  width:36px;height:36px;left:14%;bottom:26%;
+  background:rgba(255,200,160,0.75);
+  filter:blur(3px);opacity:0.95;
+  animation:blob-c 10s ease-in-out infinite alternate;
 }
-@keyframes blob-a{from{transform:translate(0,0) scale(1)}to{transform:translate(40px,30px) scale(1.08)}}
-@keyframes blob-b{from{transform:translate(0,0) scale(1)}to{transform:translate(-30px,-20px) scale(1.05)}}
-@keyframes blob-c{from{transform:translate(0,0) scale(1)}to{transform:translate(-50px,-40px) scale(1.1)}}
+@keyframes blob-a{from{transform:translate(0,0) scale(1)}to{transform:translate(20px,-15px) scale(1.15)}}
+@keyframes blob-b{from{transform:translate(0,0) scale(1)}to{transform:translate(-15px,10px) scale(1.1)}}
+@keyframes blob-c{from{transform:translate(0,0) scale(1)}to{transform:translate(10px,-8px) scale(1.2)}}
+
+/* Add a few more soft bokeh dots with pseudo elements on brand-panel */
+.bg-scene::after{
+  content:"";
+  position:absolute;
+  left:2%;bottom:12%;
+  width:120px;height:120px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(160,110,170,0.45) 0%, transparent 70%);
+  filter:blur(8px);
+  animation:blob-a 20s ease-in-out infinite alternate;
+}
 .brand-panel, .form-panel{position:relative;z-index:1}
 .brand-panel{animation:brand-slide-in .75s .15s cubic-bezier(.22,.9,.28,1) both}
 .form-panel{animation:form-slide-in .75s .25s cubic-bezier(.22,.9,.28,1) both}
