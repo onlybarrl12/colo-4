@@ -28,7 +28,7 @@ html,body,#root{margin:0;padding:0;height:100%}
 body{
   font-family:'Manrope','Sora',system-ui,-apple-system,sans-serif;
   color:var(--ink);
-  background:#8B5FB0;
+  background:#0B3A47;
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
 }
@@ -37,7 +37,7 @@ body{
   min-height:100vh;
   display:flex;
   flex-direction:column;
-  background:#8B5FB0;
+  background:#0B3A47;
   animation:page-fade-in .6s ease-out both;
 }
 @keyframes page-fade-in{
@@ -79,155 +79,51 @@ body{
   grid-template-columns:minmax(0, 1.05fr) minmax(460px, 0.95fr);
   position:relative;isolation:isolate;overflow:hidden;
   background:
-    linear-gradient(135deg, #7B4FA8 0%, #9E6AAF 25%, #C68A9C 45%, #E5A488 65%, #EB8B4A 85%, #E97824 100%);
+    /* stronger left-side darken so brand text pops */
+    linear-gradient(90deg, rgba(6,45,55,0.82) 0%, rgba(6,45,55,0.55) 40%, rgba(11,58,71,0.30) 70%, rgba(11,58,71,0.50) 100%),
+    /* subtle bottom vignette */
+    linear-gradient(180deg, rgba(6,45,55,0.30) 0%, transparent 40%, rgba(6,45,55,0.45) 100%),
+    /* SERPL tanker photograph (label pre-cropped) */
+    url("./bg/tanker-spm.jpg") center center / cover no-repeat,
+    #0B3A47;
+  animation:bg-kenburns 45s ease-in-out infinite alternate;
+}
+@keyframes bg-kenburns{
+  0%  {background-size:auto, auto, 108% auto, auto}
+  100%{background-size:auto, auto, 118% auto, auto}
+}
+@keyframes bg-kenburns{
+  0%  {background-size:auto, 108% auto, auto}
+  100%{background-size:auto, 118% auto, auto}
 }
 
-/* Decorative background layers — refinery silhouette + warm bokeh */
-.bg-scene{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;display:block}
-.bg-grid,.bg-glow{display:none}
+/* Decorative background layers — subtle water sparkles only */
+.bg-scene{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;display:block}
+.bg-grid,.bg-glow,.bg-blob{display:none}
 
-/* Glowing pipeline energy flow — streaks of light traveling along refinery pipelines */
+/* Twinkling water sparkles across the scene */
 .bg-lines{
   position:absolute;inset:0;overflow:hidden;pointer-events:none;
   display:block;z-index:2;
 }
-
-/* Subtle horizontal pipeline lines the streaks flow along */
-.bg-lines::before,
-.bg-lines::after{
-  content:"";
-  position:absolute;left:0;right:0;
-  height:1px;
-  background:linear-gradient(90deg,
-    transparent 0%,
-    rgba(255,200,140,0.18) 10%,
-    rgba(255,200,140,0.32) 50%,
-    rgba(255,200,140,0.18) 90%,
-    transparent 100%);
-  pointer-events:none;
-}
-.bg-lines::before{bottom:22%}
-.bg-lines::after{bottom:16%}
-
-/* Each span is a comet-like energy streak */
 .bg-lines span{
   position:absolute;
-  width:130px;height:3px;
-  border-radius:2px;
-  background:linear-gradient(90deg,
-    transparent 0%,
-    rgba(255,225,150,0.25) 20%,
-    rgba(255,190,90,0.75) 55%,
-    #FFE7A8 82%,
-    #FFFFFF 96%,
-    transparent 100%);
-  box-shadow:
-    0 0 8px rgba(255,190,90,0.85),
-    0 0 20px rgba(255,180,80,0.55),
-    0 0 40px rgba(255,150,60,0.25);
-  filter:blur(0.4px);
+  width:3px;height:3px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.9);
+  box-shadow:0 0 8px rgba(255,255,255,0.7), 0 0 18px rgba(200,240,240,0.4);
   opacity:0;
-  animation:pipeline-flow 6s linear infinite;
-  will-change:transform, opacity;
+  animation:sparkle 5s ease-in-out infinite;
 }
-
-/* 6 streaks — different heights, speeds, and directions */
-.bg-lines span:nth-child(1){bottom:28%;left:-15%;animation-delay:0s;   animation-duration:5.5s}
-.bg-lines span:nth-child(2){bottom:22%;left:-15%;animation-delay:1.5s; animation-duration:7s;   height:2px;width:100px}
-.bg-lines span:nth-child(3){bottom:16%;left:-15%;animation-delay:2.8s; animation-duration:6s;   height:4px;width:150px}
-.bg-lines span:nth-child(4){bottom:24%;left:-15%;animation-delay:3.8s; animation-duration:8s;   height:2px;width:90px}
-.bg-lines span:nth-child(5){bottom:19%;left:-15%;animation-delay:0.9s; animation-duration:6.5s; height:3px;width:120px}
-.bg-lines span:nth-child(6){bottom:14%;left:-15%;animation-delay:4.5s; animation-duration:5s;   height:2px;width:110px}
-
-@keyframes pipeline-flow{
-  0%  {transform:translateX(0)          scaleX(0.6); opacity:0}
-  6%  {opacity:1}
-  50% {transform:translateX(60vw)       scaleX(1);   opacity:1}
-  94% {opacity:1}
-  100%{transform:translateX(130vw)      scaleX(0.7); opacity:0}
-}
-
-/* Subtle glowing energy pulse at pipeline junctions (via .bg-glow) */
-.bg-scene .bg-glow{
-  display:block;
-  position:absolute;inset:0;pointer-events:none;
-  background:transparent;
-  mix-blend-mode:normal;
-  z-index:1;
-}
-.bg-scene .bg-glow::before,
-.bg-scene .bg-glow::after{
-  content:"";
-  position:absolute;
-  width:14px;height:14px;
-  border-radius:50%;
-  background:radial-gradient(circle, #FFE7A8 0%, rgba(255,190,90,0.6) 40%, transparent 70%);
-  box-shadow:0 0 20px rgba(255,190,90,0.8), 0 0 40px rgba(255,150,60,0.4);
-}
-.bg-scene .bg-glow::before{
-  left:14%;bottom:22%;
-  animation:pulse-node 2.4s ease-in-out infinite;
-}
-.bg-scene .bg-glow::after{
-  left:72%;bottom:16%;
-  animation:pulse-node 2.8s ease-in-out infinite 1s;
-}
-@keyframes pulse-node{
-  0%,100%{opacity:0.4;transform:scale(0.9)}
-  50%    {opacity:1;  transform:scale(1.4)}
-}
-
-/* Subtle refinery/industrial silhouette at bottom */
-.bg-scene::before{
-  content:"";
-  position:absolute;
-  left:0;right:0;bottom:0;
-  height:38%;
-  background:
-    /* horizon line darkening */
-    linear-gradient(180deg, transparent 0%, rgba(120,52,20,0.10) 50%, rgba(90,35,15,0.18) 100%),
-    /* refinery silhouette SVG */
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 300' preserveAspectRatio='xMidYEnd slice'><g fill='rgba(90,40,20,0.18)'><rect x='60' y='180' width='60' height='120'/><rect x='140' y='210' width='40' height='90'/><rect x='200' y='190' width='70' height='110'/><rect x='290' y='170' width='90' height='130'/><rect x='400' y='200' width='50' height='100'/><rect x='470' y='215' width='55' height='85'/><rect x='545' y='185' width='75' height='115'/><rect x='640' y='195' width='60' height='105'/><rect x='720' y='170' width='95' height='130'/><rect x='835' y='210' width='45' height='90'/><rect x='900' y='190' width='70' height='110'/><rect x='990' y='175' width='85' height='125'/><rect x='1095' y='205' width='60' height='95'/><rect x='90' y='170' width='6' height='40'/><rect x='250' y='160' width='6' height='40'/><rect x='340' y='150' width='6' height='30'/><rect x='580' y='165' width='6' height='30'/><rect x='770' y='150' width='6' height='30'/><rect x='940' y='170' width='6' height='30'/><rect x='1030' y='155' width='6' height='30'/><ellipse cx='170' cy='210' rx='40' ry='14'/><ellipse cx='430' cy='200' rx='38' ry='12'/><ellipse cx='670' cy='195' rx='36' ry='11'/><ellipse cx='875' cy='210' rx='42' ry='13'/><path d='M60,240 L1160,240 L1160,300 L60,300 Z' opacity='0.5'/></g></svg>") repeat-x bottom / auto 100%;
-  opacity:0.85;
-}
-
-/* Warm bokeh circles on left/bottom */
-.bg-blob{
-  position:absolute;border-radius:50%;filter:blur(30px);
-  will-change:transform;pointer-events:none;
-}
-.bg-blob-1{
-  width:80px;height:80px;left:4%;bottom:22%;
-  background:rgba(180,130,180,0.55);
-  filter:blur(6px);opacity:0.85;
-  animation:blob-a 12s ease-in-out infinite alternate;
-}
-.bg-blob-2{
-  width:52px;height:52px;left:9%;bottom:32%;
-  background:rgba(232,168,145,0.7);
-  filter:blur(4px);opacity:0.9;
-  animation:blob-b 15s ease-in-out infinite alternate;
-}
-.bg-blob-3{
-  width:36px;height:36px;left:14%;bottom:26%;
-  background:rgba(255,200,160,0.75);
-  filter:blur(3px);opacity:0.95;
-  animation:blob-c 10s ease-in-out infinite alternate;
-}
-@keyframes blob-a{from{transform:translate(0,0) scale(1)}to{transform:translate(20px,-15px) scale(1.15)}}
-@keyframes blob-b{from{transform:translate(0,0) scale(1)}to{transform:translate(-15px,10px) scale(1.1)}}
-@keyframes blob-c{from{transform:translate(0,0) scale(1)}to{transform:translate(10px,-8px) scale(1.2)}}
-
-/* Add a few more soft bokeh dots with pseudo elements on brand-panel */
-.bg-scene::after{
-  content:"";
-  position:absolute;
-  left:2%;bottom:12%;
-  width:120px;height:120px;
-  border-radius:50%;
-  background:radial-gradient(circle, rgba(160,110,170,0.45) 0%, transparent 70%);
-  filter:blur(8px);
-  animation:blob-a 20s ease-in-out infinite alternate;
+.bg-lines span:nth-child(1){left:12%; top:25%; animation-delay:0s;   animation-duration:4.5s}
+.bg-lines span:nth-child(2){left:28%; top:78%; animation-delay:1.2s; animation-duration:5s;   width:4px;height:4px}
+.bg-lines span:nth-child(3){left:46%; top:32%; animation-delay:2.4s; animation-duration:6s}
+.bg-lines span:nth-child(4){left:64%; top:68%; animation-delay:0.8s; animation-duration:4s;   width:4px;height:4px}
+.bg-lines span:nth-child(5){left:82%; top:22%; animation-delay:3.2s; animation-duration:5.5s}
+.bg-lines span:nth-child(6){left:8%;  top:60%; animation-delay:1.8s; animation-duration:4.8s; width:2px;height:2px}
+@keyframes sparkle{
+  0%,100%{opacity:0;transform:scale(0.5)}
+  50%    {opacity:1;transform:scale(1.6)}
 }
 .brand-panel, .form-panel{position:relative;z-index:1}
 .brand-panel{animation:brand-slide-in .75s .15s cubic-bezier(.22,.9,.28,1) both}
@@ -255,11 +151,11 @@ body{
 .brand-panel{padding:clamp(20px, 3vw, 44px) clamp(30px, 6vw, 90px) clamp(22px,3vw,38px);display:flex;align-items:center;justify-content:center}
 .brand-inner{width:100%;max-width:620px;display:flex;flex-direction:column;gap:clamp(20px,2.5vw,32px)}
 
-.budget-brand{text-align:center;color:var(--ink)}
+.budget-brand{text-align:center;color:#FFFFFF}
 .rupee-badge{
   display:flex;justify-content:center;
   margin-bottom:8px;
-  filter:drop-shadow(0 8px 20px rgba(15,23,42,0.10));
+  filter:drop-shadow(0 12px 30px rgba(0,0,0,0.5)) drop-shadow(0 4px 10px rgba(255,180,80,0.3));
   animation:float-emblem 5.2s ease-in-out infinite;
 }
 .rupee-emblem{
@@ -296,10 +192,10 @@ body{
   font-size:clamp(44px, 5.5vw, 68px);
   letter-spacing:-2.4px;
   line-height:1;
-  text-shadow:none;
+  text-shadow:0 4px 20px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.35);
 }
-.bt-blue{color:var(--iol-blue)}
-.bt-orange{color:var(--brand-orange)}
+.bt-blue{color:#FFFFFF}
+.bt-orange{color:#FFB86A}
 .hindi-divider{
   width:70%;
   max-width:420px;
@@ -328,15 +224,16 @@ body{
   letter-spacing:1px;
   line-height:1.1;
 }
-.hindi-blue{color:var(--iol-blue)}
-.hindi-orange{color:var(--brand-orange)}
+.hindi-blue{color:#FFFFFF;text-shadow:0 3px 12px rgba(0,0,0,0.5)}
+.hindi-orange{color:#FFB86A;text-shadow:0 3px 12px rgba(0,0,0,0.5)}
 .sys-line{
   margin:14px 0 12px;
-  color:var(--iol-blue);
+  color:#F0F6FA;
   font-family:'Sora','Manrope',sans-serif;
   font-weight:600;
   font-size:clamp(16px, 1.7vw, 21px);
   line-height:1.3;
+  text-shadow:0 2px 10px rgba(0,0,0,0.55);
 }
 .serpl-row{
   display:flex;
@@ -351,14 +248,15 @@ body{
   width:80px;
   border-radius:2px;
 }
-.serpl-line.purple{background:var(--brand-purple)}
-.serpl-line.orange{background:var(--brand-orange)}
+.serpl-line.purple{background:#FFB86A}
+.serpl-line.orange{background:#FFB86A}
 .serpl-text{
   font-family:'Sora','Manrope',sans-serif;
   font-weight:800;
   font-size:22px;
-  color:var(--iol-blue);
+  color:#FFFFFF;
   letter-spacing:2px;
+  text-shadow:0 2px 10px rgba(0,0,0,0.5);
 }
 
 .message-card{
