@@ -84,7 +84,70 @@ body{
 
 /* Decorative background layers — refinery silhouette + warm bokeh */
 .bg-scene{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;display:block}
-.bg-grid,.bg-glow,.bg-lines{display:none}
+.bg-grid,.bg-glow{display:none}
+
+/* Floating rising bubbles — creative motion animation */
+.bg-lines{
+  position:absolute;inset:0;overflow:hidden;pointer-events:none;
+  display:block;z-index:1;
+}
+.bg-lines span{
+  position:absolute;bottom:-100px;
+  display:block;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95) 0%, rgba(255,240,220,0.6) 30%, rgba(255,200,160,0.25) 55%, rgba(255,180,140,0.08) 75%, transparent 100%);
+  box-shadow:
+    inset -4px -6px 10px rgba(180,110,60,0.15),
+    inset 3px 4px 8px rgba(255,255,255,0.5),
+    0 0 20px rgba(255,220,180,0.35);
+  opacity:0;
+  animation:bubble-rise 18s linear infinite;
+}
+/* six distinct bubbles with unique paths and sizes */
+.bg-lines span:nth-child(1){left:8%;  width:34px; height:34px; animation-delay:0s;  animation-duration:16s}
+.bg-lines span:nth-child(2){left:22%; width:52px; height:52px; animation-delay:3s;  animation-duration:22s}
+.bg-lines span:nth-child(3){left:38%; width:22px; height:22px; animation-delay:6s;  animation-duration:12s}
+.bg-lines span:nth-child(4){left:55%; width:64px; height:64px; animation-delay:1.5s;animation-duration:26s}
+.bg-lines span:nth-child(5){left:72%; width:38px; height:38px; animation-delay:8s;  animation-duration:19s}
+.bg-lines span:nth-child(6){left:87%; width:28px; height:28px; animation-delay:4.5s;animation-duration:15s}
+
+@keyframes bubble-rise{
+  0%  {transform:translate(0,0) scale(0.75); opacity:0}
+  8%  {opacity:0.85}
+  25% {transform:translate(18px, -25vh) scale(0.95)}
+  50% {transform:translate(-14px, -55vh) scale(1); opacity:0.9}
+  75% {transform:translate(20px, -80vh) scale(1.08)}
+  92% {opacity:0.35}
+  100%{transform:translate(-6px, -108vh) scale(1.15); opacity:0}
+}
+
+/* Second layer of smaller purple-tinted bubbles via .bg-scene pseudo elements */
+.bg-scene .bg-glow{
+  display:block;
+  position:absolute;inset:0;pointer-events:none;
+  background:transparent;
+  mix-blend-mode:normal;
+}
+.bg-scene .bg-glow::before,
+.bg-scene .bg-glow::after{
+  content:"";
+  position:absolute;bottom:-60px;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(200,150,200,0.35) 45%, transparent 75%);
+  box-shadow:inset -3px -4px 8px rgba(120,60,120,0.15), 0 0 16px rgba(200,150,200,0.4);
+  opacity:0;
+}
+.bg-scene .bg-glow::before{
+  left:14%;width:18px;height:18px;
+  animation:bubble-rise 14s linear infinite;
+  animation-delay:2s;
+}
+.bg-scene .bg-glow::after{
+  left:44%;width:26px;height:26px;
+  animation:bubble-rise 20s linear infinite;
+  animation-delay:9s;
+}
 
 /* Subtle refinery/industrial silhouette at bottom */
 .bg-scene::before{
